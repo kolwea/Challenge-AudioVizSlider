@@ -7,6 +7,8 @@ package audioviz;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.DoubleProperty;
@@ -116,7 +118,6 @@ public class PlayerController implements Initializable {
 
     private void addListeners() {
 
-
         timeSlider.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -202,7 +203,7 @@ public class PlayerController implements Initializable {
 
     private void handleReady() {
         Duration duration = mediaPlayer.getTotalDuration();
-        lengthText.setText(duration.toString());
+        lengthText.setText(String.format("%.1f ms", duration.toMillis()));
         Duration ct = mediaPlayer.getCurrentTime();
         currentText.setText(ct.toString());
         currentVisualizer.start(numBands, vizPane);
@@ -219,7 +220,8 @@ public class PlayerController implements Initializable {
     private void handleUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
         Duration ct = mediaPlayer.getCurrentTime();
         double ms = ct.toMillis();
-        currentText.setText(Double.toString(ms));
+        currentText.setText(String.format("%.1f ms" , ms));
+        
         if (!sliderDisable) {
             timeSlider.setValue(ms);
         }
